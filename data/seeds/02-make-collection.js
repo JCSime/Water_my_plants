@@ -1,7 +1,7 @@
 const users = [
-    {username: 'John', password: '1234', phoneNumber: '5555555555'},
-    {username: 'Harley', password: '1234', phoneNumber: '4444444444'},
-    {username: 'Deon', password: '1234', phoneNumber: '5555555555'},
+    {username: 'John', password: '1234', phoneNumber: '5555555555', permissions: 'admin'},
+    {username: 'Harley', password: '1234', phoneNumber: '4444444444', permissions: 'user'},
+    {username: 'Deon', password: '1234', phoneNumber: '5555555555', permissions: 'user'},
 ]
 
 const plants = [

@@ -6,6 +6,8 @@ exports.up = async function(knex) {
             tbl.string('username', 128).notNullable().unique()
             tbl.string('password', 128).notNullable()
             tbl.integer('phoneNumber').notNullable()
+            tbl.text('permissions');
+            tbl.timestamps(false, true);
         })
         .createTable('plants', tbl => {
             tbl.increments('plant_id')

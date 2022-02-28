@@ -4,8 +4,10 @@
   "description": "A handy place to store plant hydration information",
   "main": "index.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.15",
     "sqlite3": "^5.0.2"
   },
@@ -16,7 +18,8 @@
     "rollback": "knex migrate:rollback",
     "reset": "npm run rollback && npm rin migrate && npm run seed",
     "cleanup": "knex seed:run --specific=01-cleanup.js",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "resetDB": "npm run rollback && npm run migrate && npm run seed"
   },
   "repository": {
     "type": "git",
@@ -30,6 +33,7 @@
   },
   "homepage": "https://github.com/JCSime/Water_my_plants#readme",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.10.0",
     "knex-cleaner": "^1.3.1",
     "nodemon": "^2.0.15"
