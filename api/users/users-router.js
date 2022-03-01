@@ -1,8 +1,8 @@
 const router = require('express').Router()
 const User = require('./users-model');
-const { checkLoggedIn } = require('../auth/auth-middleware');
+const { checkLoggedIn, only } = require('../auth/auth-middleware');
 
-router.get('/', checkLoggedIn, (req, res, next) => {
+router.get('/', checkLoggedIn, only('admin'), (req, res, next) => {
     User.get()
         .then(users => {
             res.json(users)

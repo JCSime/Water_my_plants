@@ -3,7 +3,9 @@ const db = require('../../data/db-config');
 module.exports = {
     get,
     findBy,
-    addUser
+    addUser,
+    updateUser,
+    deleteUser,
 }
 
 function get() {
@@ -24,4 +26,15 @@ async function addUser(user) {
         'permissions',
     ]);
     return newUser;
+}
+
+async function updateUser(user_id, updates) {
+    const [updatedUser] = await db("users")
+        .where({ user_id })
+        .update(updates, ['user_id', 'username', 'password', 'permissions']);
+    return updatedUser;
+}
+  
+async function deleteUser(user_id) {
+    return db("users").where({ user_id }).del();
 }

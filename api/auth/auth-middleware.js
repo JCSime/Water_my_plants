@@ -17,6 +17,16 @@ const checkLoggedIn = (req, res, next) => {
         });
     }
 };
+
+const only = (permissions) => (req, res, next) => {
+    if (req.decodedJwt.permissions === permissions) {
+      next();
+    } else {
+      next({ status: 403, message: "Invalid permissions" });
+    }
+  };
+
 module.exports = {
-    checkLoggedIn
+    checkLoggedIn,
+    only,
 }
