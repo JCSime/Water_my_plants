@@ -29,7 +29,7 @@ async function addUser(user) {
 }
 
 async function updateUser(user_id, updates) {
-    const [updatedUser] = await db("users")
+    const [updatedUser] = await db('users')
         .where({ user_id })
         .update(updates, ['user_id', 'username', 'password', 'permissions']);
     return updatedUser;

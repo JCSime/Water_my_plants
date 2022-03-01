@@ -18,30 +18,41 @@ async function getPlantById(plant_id) {
     )
     .orderBy('p.user_id')
     .where('p.plant_id', plant_id);
-    return data;
+    return data[0];
 }
 
 async function addPlants(plant) {
-    let newPlant_id;
-    await db.transaction(async (trx) => {
-        const addPlants = {
-            nickname: plant.nickname,
-            species: plant.species,
-            h2oFrequency: plant.h2oFrequency
-        };
-        let plant_id;
-        try{
-            [{ plant_id }] = await trx('plants').insert(addPlants, 'plant_id');
-            newPlant_id = plant_id;
-        } catch (err) {
-            res.status(400).json(err);
-        }
-    });
-    return getPlantById(newPlant_id)
+    const [newPlant] = await db('plants').insert(plant, [
+        'nickname',
+        'species',
+        'h2oFrequency',
+        'user_id',
+    ]);
+    const result = getPlantById(newPlant)
+    return result;
+}
+
+async function updatePlant(plant_id, plant) {
+    const updatePlant = {
+        nickname: plant.nickname,
+        species: plant.species,
+        h2oFrequency: plant.h2oFrequency,
+        user_id: plant.user_id
+    };
+    await db('plants')
+        .where({ plant_id })
+        .update(updatePlant);
+    return getPlantById(plant_id);
+}
+
+function deletePlant(plant_id) {
+    return db('plants').where({ plant_id }).del();
 }
 
 module.exports = {
     getAllPlants,
     getPlantById,
-    addPlants
+    addPlants,
+    updatePlant,
+    deletePlant
 }

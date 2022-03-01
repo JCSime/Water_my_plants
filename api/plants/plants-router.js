@@ -21,4 +21,35 @@ router.post('/', (req, res, next)=>{
         .catch(next);
 });
 
+router.get('/:plant_id', (req, res, next) => {
+    const plant_id = req.params.plant_id;
+    Plants.getPlantById(plant_id)
+        .then((plant) => {
+            res.status(200).json(plant);
+        })
+        .catch(next);
+});
+
+router.put('/:plant_id', (req, res, next) => {
+    const updates = req.body;
+    updates.plant_id = req.params.plant_id;
+    Plants.updatePlant(updates.plant_id, updates)
+        .then((plant) => {
+            res.status(200).json(plant);
+        })
+        .catch(next)
+})
+
+router.delete('/:plant_id', (req, res, next) => {
+    Plants.deletePlant(req.params.plant_id)
+        .then(count => {
+            if (count > 0) {
+                res.status(204).end();
+            } else {
+                res.status(404).json({ message: 'Plant not fount!' })
+            }
+        })
+        .catch(next);
+});
+
 module.exports = router;
