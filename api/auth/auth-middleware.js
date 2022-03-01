@@ -26,7 +26,24 @@ const only = (permissions) => (req, res, next) => {
     }
   };
 
+const validateUserId = async (req, res, next) => {
+    try {
+        const uncheckedID = await dbConfig('users')
+        .where('user_id', req.params.user_id)
+        .first();
+
+        if (uncheckedID) {
+            next();
+        } else {
+            next({ status: 404, message: 'User not found' });
+        }
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     checkLoggedIn,
     only,
+    validateUserId,
 }

@@ -20,6 +20,10 @@ async function getPlantById(plant_id) {
     .where('p.plant_id', plant_id);
     return data[0];
 }
+async function getMyPlants(user_id) {
+    const plants = await db('plants').where('user_id', user_id);
+    return plants;
+  }
 
 async function addPlants(plant) {
     const [newPlant] = await db('plants').insert(plant, [
@@ -52,6 +56,7 @@ function deletePlant(plant_id) {
 module.exports = {
     getAllPlants,
     getPlantById,
+    getMyPlants,
     addPlants,
     updatePlant,
     deletePlant
