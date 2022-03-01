@@ -3,7 +3,7 @@ const User = require('./users-model');
 const { checkLoggedIn, only } = require('../auth/auth-middleware');
 
 router.get('/', checkLoggedIn, only('admin'), (req, res, next) => {
-    User.get()
+    User.getAllUsers()
         .then(users => {
             res.json(users)
         })

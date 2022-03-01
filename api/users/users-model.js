@@ -1,14 +1,14 @@
 const db = require('../../data/db-config');
 
 module.exports = {
-    get,
+    getAllUsers,
     findBy,
     addUser,
     updateUser,
     deleteUser,
 }
 
-function get() {
+function getAllUsers() {
     return db('users');
 }
 
