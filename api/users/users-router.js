@@ -1,11 +1,11 @@
 const router = require('express').Router()
 const bcrypt = require('bcryptjs');
-const User = require('./users-model');
+const Users = require('./users-model');
 const Plants = require('../plants/plants-model');
 const { checkLoggedIn, only, validateUserId } = require('../auth/auth-middleware');
 
 router.get('/', checkLoggedIn, only('admin'), (req, res, next) => {
-    User.getAllUsers()
+    Users.getAllUsers()
         .then(users => {
             res.json(users)
         })
@@ -14,7 +14,7 @@ router.get('/', checkLoggedIn, only('admin'), (req, res, next) => {
 
 router.get('/:user_id', (req, res, next) => {
     const user_id = req.params.user_id;
-    User.findBy({ user_id })
+    Users.findBy({ user_id })
       .first()
       .then((user) => {
         res.json(user);
@@ -35,9 +35,21 @@ router.put('/:user_id', validateUserId, (req, res, next) => {
   const hash = bcrypt.hashSync(user.password);
   user.password = hash;
   
-  User.updateUser(req.params.user_id, user)
+  Users.updateUser(req.params.user_id, user)
     .then((user) => {
       res.status(200).json(user);
+    })
+    .catch(next);
+});
+
+router.delete('/:user_id', (req, res, next) => {
+  Users.deleteUser(req.params.user_id)
+    .then(count => {
+      if (count > 0) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
     })
     .catch(next);
 });
