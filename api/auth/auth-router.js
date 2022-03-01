@@ -15,8 +15,7 @@ router.post('/register', (req, res, next) => {
         res.status(201).json(addedUser);
       })
       .catch(next);
-  }
-);
+});
 
 router.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
